@@ -1,0 +1,24 @@
+{
+  "nodes": {
+    "nixPackagesUnstable": {
+      "locked": {
+        "lastModified": 1741851582,
+        "narHash": "sha256-cPfs8qMccim2RBgtKGF+x9IBCduRvd/N5F4nYpU0TVE=",
+        "path": "/nix/store/sznkl4iwqvxprlg05fx24xx8bd8j7y6l-source",
+        "rev": "6607cf789e541e7873d40d3a8f7815ea92204f32",
+        "type": "path"
+      },
+      "original": {
+        "id": "nixPackagesUnstable",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixPackagesUnstable": "nixPackagesUnstable"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
