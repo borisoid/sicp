@@ -25,14 +25,12 @@
 
 ; Exercise 1.3
 (define (sum-squares-of-2-largest-numbers a b c)
-    (define (sum-of-squares a b) (+ (square a) (square b)))
+    (define (sum-squares a b) (+ (square a) (square b)))
 
     (define (sum-squares-of-2-largest-numbers ns l1 l2)
         (if (null? ns)
-            (sum-of-squares l1 l2)
-            (let* (
-                    (n (car ns))
-                )
+            (sum-squares l1 l2)
+            (let ((n (car ns)))
                 (cond
                     ((> n l1) (sum-squares-of-2-largest-numbers (cdr ns) n l1))
                     ((> n l2) (sum-squares-of-2-largest-numbers (cdr ns) l1 n))
@@ -49,7 +47,7 @@
     ;             (ns2 (delete-first-match (lambda (x) (= x n1)) ns))
     ;             (n2 (apply max ns2))
     ;         )
-    ;         (sum-of-squares n1 n2)
+    ;         (sum-squares n1 n2)
     ;     )
     ; )
     ; (sum-squares-of-2-largest-numbers (list a b c))
