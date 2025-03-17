@@ -84,6 +84,33 @@
 
 ; }}}
 
+; (define (pow-mod n p m)
+;     (cond
+;         ((= p 0) 1)
+;         ((even? p) (remainder
+;             (pow-mod (square n) (/ p 2) m) m
+;         ))
+;         (else (remainder
+;             (* n (pow-mod n (- p 1) m)) m
+;         ))
+;     )
+; )
+(define (pow-mod n p m)
+    (define (mod x) (remainder x m))
+    (define (pow-mod n p acc)
+        (cond
+            ((= p 0) acc)
+            ((even? p) (pow-mod
+                (mod (square n)) (/ p 2) (mod acc)
+            ))
+            (else (pow-mod
+                (mod n) (- p 1) (mod (* acc n))
+            ))
+        )
+    )
+    (pow-mod n p 1)
+)
+
 ; Exercise 1.18 {{{
 (define (mul a b)
     (define (double a) (* a 2))
@@ -97,4 +124,74 @@
     )
     (mul a b 0)
 )
+; }}}
+
+; Exercise 1.21 & Exercise 1.23 {{{
+(define (divides? a b) (= (remainder b a) 0))
+(define (smallest-divisor n)
+    (define (find-divisor n test-divisor step)
+        (cond
+            ((> (square test-divisor) n) n)
+            ((divides? test-divisor n) test-divisor)
+            (else (find-divisor n (+ test-divisor step) 2))
+        )
+    )
+    (find-divisor n 2 1)
+)
+
+; (smallest-divisor 199)
+; (smallest-divisor 1999)
+; (smallest-divisor 1999)
+; (smallest-divisor 19999)
+
+; }}}
+
+(define (prime? n)
+    (= n (smallest-divisor n))
+)
+
+; Exercise 1.22 {{{
+(define (timed-prime-test n)
+    (newline)
+    (display n)
+    (start-prime-test n (runtime))
+)
+(define (start-prime-test n start-time)
+    (if (prime? n)
+        (begin
+            (report-prime (- (runtime) start-time))
+            #t
+        )
+        #f
+    )
+)
+(define (report-prime elapsed-time)
+    (display " *** ")
+    (display elapsed-time)
+)
+
+(define (search-for-primes number max-count)
+    (define (search-for-primes number max-count count)
+        (if (< count max-count)
+            (let (
+                    (is-prime (timed-prime-test number))
+                )
+                (search-for-primes
+                    (+ 2 number)
+                    max-count
+                    (if is-prime (+ 1 count) count)
+                )
+            )
+        )
+    )
+    (search-for-primes (if (even? number) (- number 1) number) max-count 0)
+)
+
+; (search-for-primes 1000 3)
+; (search-for-primes 10000 3)
+; (search-for-primes 100000 3)
+; (search-for-primes 1000000 3)
+
+; Laptop too fast
+
 ; }}}

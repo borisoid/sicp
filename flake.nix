@@ -8,6 +8,8 @@
         system = "x86_64-linux";
 
         p = nixPackagesUnstable.legacyPackages.${system};
+
+        py = p.python3Packages;
     in {
         devShells.${system}.default = (p.buildFHSEnv {
             name = "sicp-fhs-env";
@@ -17,6 +19,8 @@
                 # Fixes ascii escape chars for mit-scheme repl.
                 # Use like this: `rlwrap scheme`
                 p.rlwrap
+
+                py.python
             ];
 
             runScript = "bash";
