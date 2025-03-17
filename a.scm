@@ -195,3 +195,20 @@
 ; Laptop too fast
 
 ; }}}
+
+
+; Exercise 1.30 {{{
+(define (fold-map bin-op bin-op-identity mapper a b next)
+    (define (fold-map a acc)
+        (if (> a b)
+            acc
+            (fold-map (next a) (bin-op acc (mapper a)))
+        )
+    )
+    (fold-map a bin-op-identity)
+)
+
+(define (sum mapper a b next)
+    (fold-map + 0 mapper a b next)
+)
+; }}}

@@ -4,4 +4,7 @@
             "command": "scheme-format"
         }
     },
+    "cSpell.words": [
+        "monoid"
+    ],
 }
