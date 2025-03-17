@@ -13,6 +13,10 @@
             name = "sicp-fhs-env";
             targetPkgs = p: [
                 p.mitscheme
+
+                # Fixes ascii escape chars for mit-scheme repl.
+                # Use like this: `rlwrap scheme`
+                p.rlwrap
             ];
 
             runScript = "bash";
