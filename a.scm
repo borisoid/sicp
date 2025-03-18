@@ -27,6 +27,19 @@
     (apply + (cons 1 terms))
 )
 
+(define (average . numbers)
+    (if (null? numbers)
+        (error "'numbers' must be non-empty")
+    )
+    (define (average numbers acc i)
+        (if (null? numbers)
+            (/ acc i)
+            (average (cdr numbers) (+ acc (car numbers)) (1+ i))
+        )
+    )
+    (average numbers 0 0)
+)
+
 ; Exercise 1.3
 (define (sum-squares-of-2-largest-numbers a b c)
     (define (sum-squares a b) (+ (square a) (square b)))
@@ -249,12 +262,47 @@
     (* 2
         (fold-map
             * 1
-            (lambda (x) (exact->inexact
+            (lambda (x)
                 (/ (square x) (* (- x 1) (+ x 1)))
-            ))
+            )
             2 (* 2 n)
             (lambda (x) (+ 2 x))
         )
     )
 )
 ;}}}
+
+; Exercise 1.33 {{{
+; TODO
+; }}}
+
+; Exercise 1.34 {{{
+(define (f g) (g 2))
+; (f f)
+; }}}
+
+; Exercise 1.35 {{{
+(define (fixed-point f first-guess tolerance-)
+    (define tolerance (if (> tolerance- 0) tolerance- 0.00001))
+    (define (close-enough? v1 v2)
+        (< (abs (- v1 v2)) tolerance)
+    )
+    (define (try guess)
+        (display guess)
+        (newline)
+        (let (
+                ; (next (f guess))  ; No "Average Damping"
+                (next (average guess (f guess)))  ; "Average Damping"
+            )
+            (if (close-enough? guess next)
+                next
+                (try next)
+            )
+        )
+    )
+    (try first-guess)
+)
+
+; (fixed-point (lambda (x) (/ (log 1000) (log x))) 2. 0)
+
+; }}}
