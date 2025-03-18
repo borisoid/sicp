@@ -223,7 +223,7 @@
 ; }}}
 
 
-; Exercise 1.30 {{{
+; Exercise 1.30 & 1.32 {{{
 (define (fold-map bin-op bin-op-identity mapper a b next)
     (define (fold-map a acc)
         (if (> a b)
@@ -238,3 +238,23 @@
     (fold-map + 0 mapper a b 1+)
 )
 ; }}}
+
+; Exercise 1.31 {{{
+
+; pi   2 * 2 * 4 * 4 * 6 * 6 * 8 * 8 * ...
+; -- = -----------------------------------
+;  2   1 * 3 * 3 * 5 * 5 * 7 * 7 * 9 * ...
+
+(define (John-Wallis-Pi n)
+    (* 2
+        (fold-map
+            * 1
+            (lambda (x) (exact->inexact
+                (/ (square x) (* (- x 1) (+ x 1)))
+            ))
+            2 (* 2 n)
+            (lambda (x) (+ 2 x))
+        )
+    )
+)
+;}}}
