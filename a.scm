@@ -23,6 +23,10 @@
     (remove-by-index list_ (list-index pred list_))
 )
 
+(define (1+ . terms)
+    (apply + (cons 1 terms))
+)
+
 ; Exercise 1.3
 (define (sum-squares-of-2-largest-numbers a b c)
     (define (sum-squares a b) (+ (square a) (square b)))
@@ -196,6 +200,28 @@
 
 ; }}}
 
+; Exercise 1.29 {{{
+(define (simpson a b f n)
+    (if (not (even? n))
+        (error "'n' is not even" n)
+    )
+    (let* (
+            (h (/ (- b a) n))
+            (y (lambda (k)
+                (* (f (+ a (* k h)))
+                    (cond
+                        ((or (= k 0) (= k n)) 1)
+                        ((odd? k) 4)
+                        ((even? k) 2)
+                    )
+                )
+            ))
+        )
+        (* (/ h 3) (sum y 0 n))
+    )
+)
+; }}}
+
 
 ; Exercise 1.30 {{{
 (define (fold-map bin-op bin-op-identity mapper a b next)
@@ -208,7 +234,7 @@
     (fold-map a bin-op-identity)
 )
 
-(define (sum mapper a b next)
-    (fold-map + 0 mapper a b next)
+(define (sum mapper a b)
+    (fold-map + 0 mapper a b 1+)
 )
 ; }}}
