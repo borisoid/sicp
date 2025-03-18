@@ -290,13 +290,13 @@
     (define (try guess)
         (display guess)
         (newline)
-        (let (
-                ; (next (f guess))  ; No "Average Damping"
-                (next (average guess (f guess)))  ; "Average Damping"
-            )
+        (let ((next (f guess)))
             (if (close-enough? guess next)
                 next
-                (try next)
+                (try
+                    ; next  ; No "Average Damping"
+                    (average next guess)  ; "Average Damping"
+                )
             )
         )
     )
@@ -305,4 +305,10 @@
 
 ; (fixed-point (lambda (x) (/ (log 1000) (log x))) 2. 0)
 
+; }}}
+
+; Exercise 1.37
+; Exercise 1.38
+; Exercise 1.39 {{{
+; TODO
 ; }}}
