@@ -282,10 +282,15 @@
 ; }}}
 
 ; Exercise 1.35 {{{
-(define (fixed-point f first-guess tolerance-)
-    (define tolerance (if (> tolerance- 0) tolerance- 0.00001))
+(define (fixed-point f first-guess #!optional tolerance)
+    ; `#!optional` is not a scheme standard, but an mit-scheme extension.
+    (define tolerance-
+        ; (if (> tolerance 0) tolerance 0.00001)
+        (if (default-object? tolerance) 0.00001 tolerance)
+    )
+
     (define (close-enough? v1 v2)
-        (< (abs (- v1 v2)) tolerance)
+        (< (abs (- v1 v2)) tolerance-)
     )
     (define (try guess)
         (display guess)
