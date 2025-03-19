@@ -1,12 +1,12 @@
 (define (list-index pred list-)
-    (define (list-index- pred list- index)
+    (define (list-index pred list- index)
         (cond
             ((null? list-) -1)
             ((pred (car list-)) index)
-            (else (list-index- pred (cdr list-) (+ 1 index)))
+            (else (list-index pred (cdr list-) (+ 1 index)))
         )
     )
-    (list-index- pred list- 0)
+    (list-index pred list- 0)
 )
 
 (define (remove-by-index list- i)
@@ -34,7 +34,7 @@
     (define (average numbers acc i)
         (if (null? numbers)
             (/ acc i)
-            (average (cdr numbers) (+ acc (car numbers)) (1+ i))
+            (average (cdr numbers) (+ acc (car numbers)) (+ 1 i))
         )
     )
     (average numbers 0 0)
@@ -169,8 +169,7 @@
 
 ; Exercise 1.22 {{{
 (define (timed-prime-test n)
-    (newline)
-    (display n)
+    (display n) (newline)
     (start-prime-test n (runtime))
 )
 (define (start-prime-test n start-time)
@@ -214,7 +213,7 @@
 ; }}}
 
 ; Exercise 1.29 {{{
-(define (simpson a b f n)
+(define (Simpson-integral a b f n)
     (if (not (even? n))
         (error "'n' is not even" n)
     )
@@ -258,7 +257,7 @@
 ; -- = -----------------------------------
 ;  2   1 * 3 * 3 * 5 * 5 * 7 * 7 * 9 * ...
 
-(define (John-Wallis-Pi n)
+(define (John-Wallis-pi n)
     (* 2
         (fold-map
             * 1
@@ -282,19 +281,22 @@
 ; }}}
 
 ; Exercise 1.35 {{{
-(define (fixed-point f first-guess #!optional tolerance)
-    ; `#!optional` is not a scheme standard, but an mit-scheme extension.
+
+; `#!optional` is not a Scheme standard, but an mit-scheme extension.
+
+(define (fixed-point f first-guess . tolerance)
+; (define (fixed-point f first-guess #!optional tolerance)
+
     (define tolerance-
-        ; (if (> tolerance 0) tolerance 0.00001)
-        (if (default-object? tolerance) 0.00001 tolerance)
+        (if (null? tolerance) 0.00001 (car tolerance))
+        ; (if (default-object? tolerance) 0.00001 tolerance)
     )
 
     (define (close-enough? v1 v2)
         (< (abs (- v1 v2)) tolerance-)
     )
     (define (try guess)
-        (display guess)
-        (newline)
+        (display guess) (newline)
         (let ((next (f guess)))
             (if (close-enough? guess next)
                 next
