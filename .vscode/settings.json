@@ -1,4 +1,16 @@
 {
+    "terminal.integrated.defaultProfile.linux": "Nix Shell",
+    "terminal.integrated.profiles.linux": {
+        "Nix Shell": {
+            "path": "nix",
+            "args": [
+                "develop",
+                "./",
+                "--profile",
+                "./nix/profile/0"
+            ]
+        }
+    },
     "externalFormatters.languages": {
         "scheme": {
             "command": "scheme-format"
@@ -6,5 +18,5 @@
     },
     "cSpell.words": [
         "monoid"
-    ],
+    ]
 }
