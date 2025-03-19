@@ -282,7 +282,8 @@
 
 ; Exercise 1.35 {{{
 
-; `#!optional` is not a Scheme standard, but an mit-scheme extension.
+; `#!optional` and `default-object?` is not a Scheme standard,
+; but an mit-scheme extension.
 
 (define (fixed-point f first-guess . tolerance)
 ; (define (fixed-point f first-guess #!optional tolerance)
