@@ -27,6 +27,10 @@
     (apply + (cons 1 terms))
 )
 
+(define (average2 a b)
+    (/ (+ a b) 2)
+)
+
 (define (average . numbers)
     (if (null? numbers)
         (error "'numbers' must be non-empty")
@@ -285,12 +289,12 @@
 ; `#!optional` and `default-object?` is not a Scheme standard,
 ; but an mit-scheme extension.
 
-(define (fixed-point f first-guess . tolerance)
 ; (define (fixed-point f first-guess #!optional tolerance)
+(define (fixed-point f first-guess . tolerance)
 
     (define tolerance-
-        (if (null? tolerance) 0.00001 (car tolerance))
         ; (if (default-object? tolerance) 0.00001 tolerance)
+        (if (null? tolerance) 0.00001 (car tolerance))
     )
 
     (define (close-enough? v1 v2)
@@ -303,7 +307,7 @@
                 next
                 (try
                     ; next  ; No "Average Damping"
-                    (average next guess)  ; "Average Damping"
+                    (average2 next guess)  ; "Average Damping"
                 )
             )
         )
@@ -319,4 +323,48 @@
 ; Exercise 1.38
 ; Exercise 1.39 {{{
 ; TODO
+; }}}
+
+
+(define (average-damp f)
+    (lambda (x) (average2 x (f x)))
+)
+
+(define (sqrt x)
+    (fixed-point
+        (average-damp (lambda (y) (/ x y)))
+        1.0
+    )
+)
+
+(define (deriv g . args)
+    (define dx2
+        (if (null? args) 0.00000001 (car args))
+    )
+    (lambda (x . args)
+        (define dx
+            (if (null? args) dx2 (car args))
+        )
+        (/ (- (g (+ x dx)) (g x)) dx)
+    )
+)
+
+(define (Newton-transform g)
+    (lambda (x)
+        (- x (/ (g x) ((deriv g) x)))
+    )
+)
+(define (Newtons-method g guess)
+    (fixed-point (Newton-transform g) guess)
+)
+
+; Exercise 1.40 : Skip
+
+; Exercise 1.41 {{{
+(define (double f)
+    (lambda (x)
+        (f (f x))
+    )
+)
+; (((double (double double)) inc) 5)
 ; }}}
