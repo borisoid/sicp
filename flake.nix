@@ -15,6 +15,7 @@
                 py = p.python3Packages;
             in [
                 p.mitscheme
+                p.guile
 
                 # Fixes ascii escape chars for mit-scheme repl.
                 # Use like this: `rlwrap scheme`

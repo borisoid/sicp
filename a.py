@@ -11,7 +11,7 @@ def pow(n: int, p: int) -> int:
 
         if p % 2 == 0:
             n = n * n
-            p = p / 2
+            p = p // 2
             return_ = return_
 
         else:
@@ -29,7 +29,7 @@ def pow(n: int, p: int) -> int:
 #         (else (expt-iter b (- n 1) (* a b)))))
 
 
-def max2(l: list[int]) -> int:
+def max2(l: list[int]) -> tuple[int, int]:
     l1: int = 0
     l2: int = 0
 
