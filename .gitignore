@@ -1,1 +1,7 @@
 /nix
+
+/.zed
+/.vscode
+
+__pycache__
+
