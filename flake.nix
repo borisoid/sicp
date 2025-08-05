@@ -16,6 +16,7 @@
             in [
                 p.mitscheme
                 p.guile
+                p.racket
 
                 # Fixes ascii escape chars for mit-scheme repl.
                 # Use like this: `rlwrap scheme`
